@@ -51,10 +51,11 @@ app.use(express.urlencoded({extended:false})); // This middlware set req.body
 app.post('/api/users', (req, res)=>{
     const newUser = req.body;
     // Check if required fields are present
-    if (!newUser.first_name || !newUser.last_name || !newUser.email) {
-        return res.status(400).send('Missing required fields');
+    if (!newUser || !newUser.first_name || !newUser.last_name || !newUser.email || !newUser.gender) {
+        return res.status(400).send('Missing required fields'); // 400 show it as bad request because of lack or incorrect data
     }
     users.push({id: users.length + 1, ...newUser});
+    res.status(201);  // Show that new resource created
     saveUsersToFile(users,res,`New user added with ID: ${users.length}`);
 });
 
