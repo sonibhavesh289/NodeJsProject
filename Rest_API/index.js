@@ -47,16 +47,16 @@ function saveUsersToFile(users, res, successMessage) {
     });
 }
 
-app.use(express.urlencoded({extended:false})); // This middlware set req.body
-app.post('/api/users', (req, res)=>{
+app.use(express.urlencoded({ extended: false })); // This middlware set req.body
+app.post('/api/users', (req, res) => {
     const newUser = req.body;
     // Check if required fields are present
     if (!newUser || !newUser.first_name || !newUser.last_name || !newUser.email || !newUser.gender) {
         return res.status(400).send('Missing required fields'); // 400 show it as bad request because of lack or incorrect data
     }
-    users.push({id: users.length + 1, ...newUser});
+    users.push({ id: users.length + 1, ...newUser });
     res.status(201);  // Show that new resource created
-    saveUsersToFile(users,res,`New user added with ID: ${users.length}`);
+    saveUsersToFile(users, res, `New user added with ID: ${users.length}`);
 });
 
 app.route('/api/users/:id')
@@ -80,17 +80,17 @@ app.route('/api/users/:id')
         // const updatedUsers = users.filter(user => user.id !== id);
         const userIndex = users.findIndex(user => user.id === id);
         users.splice(userIndex, 1);// Remove the user from the array
-        saveUsersToFile(users,res,`Deleted the user with ID : ${id}`);
+        saveUsersToFile(users, res, `Deleted the user with ID : ${id}`);
     })
     .patch(function (req, res) {
         const id = Number(req.params.id);
-        const user = users.find(user => user.id === id); 
+        const user = users.find(user => user.id === id);
         if (!user) {
             // Return 404 response if user is not found
             return res.status(404).send(`User with ID: ${id} not found.`);
         }
         user.email = req.body.email || user.email;
-        saveUsersToFile(users,res,`User with ID: ${id} updated successfully.`);
+        saveUsersToFile(users, res, `User with ID: ${id} updated successfully.`);
     });
 
 

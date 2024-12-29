@@ -4,7 +4,7 @@ const logRequest = require("./middlwares")
 
 const app = express();
 
-app.use(express.urlencoded({extended:false})); // This middlware set req.body
+app.use(express.urlencoded({ extended: false })); // This middlware set req.body
 
 app.use(logRequest("log.txt"));
 
